@@ -1,0 +1,31 @@
+﻿@model List<Sepet>
+
+@{
+    ViewData["title"] = "Sepetim";
+}
+
+<h3 class="text-center">Sepetim</h3>
+<hr />
+
+<ul>
+    @{
+        int toplamTutar = 0;
+    }
+    @foreach (var sepet in Model)
+    {
+        <form method="post" asp-action="SepetSil" asp-controller="Sepet">
+        <li>
+            <label> <input type="hidden" name="Id" value="@sepet.Id" /> @sepet.UrunAdi (Adet: @sepet.UrunAdedi) - @sepet.UrunFiyati.ToString("N") </label>TL <button class="btn-danger">SİL</button>
+        </li>
+        <br />
+        </form>
+        toplamTutar += sepet.UrunFiyati;
+    }
+
+</ul>
+
+<h6>Toplam Sepet Tutarı : @toplamTutar</h6>
+<br />
+<h6>Ödeme Yöntemini Seçiniz: </h6>
+<a href="Home/SatinAl"><button class="btn-outline-success">Nakit</button></a>
+<a href="Sepet/KrediOde"><button class="btn-outline-success">Kredi Kartı</button></a>

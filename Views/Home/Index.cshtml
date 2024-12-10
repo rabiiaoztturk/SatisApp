@@ -1,0 +1,140 @@
+﻿@model List<Product>
+@{
+    ViewData["title"] = "Anasayfa";
+}
+
+@if (!string.IsNullOrEmpty(ViewBag.Message))
+{
+    <div class="alert @ViewBag.MessageCssClass" role="alert">
+        @ViewBag.Message
+    </div>
+}
+
+<h3 class="text-center">Öz Cafe - Menü</h3>
+<hr />
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <button class="btn btn-outline-secondary" onclick="filterProducts('Ana Yemekler')">Ana Yemekler</button>
+                <button class="btn btn-outline-secondary" onclick="filterProducts('Alkollü İçecekler')">Alkollü İçecekler</button>
+                <button class="btn btn-outline-secondary" onclick="filterProducts('Alkolsüz İçecekler')">Alkolsüz İçecekler</button>
+                <button class="btn btn-outline-secondary" onclick="filterProducts('Tatlılar')">Tatlılar</button>
+            </ul>
+            <form class="d-flex" role="search" onsubmit="searchProducts(event)" autocomplete="off">
+                <input class="form-control me-2" type="search" placeholder="Ara" aria-label="Search" id="searchInput">
+                <button class="btn btn-outline-success" type="submit">Ara</button>
+            </form>
+        </div>
+    </div>
+</nav>
+<br />
+<form method="post" asp-action="SepeteEkle" asp-controller="Home">
+    <div class="row" id="productList">
+        @foreach (var product in Model)
+        {
+            <div class="col-md-4 product-item" data-category="@product.CategoryName">
+                <label>
+                    <input type="radio" required name="Id" value="@product.Id" />
+                    <img style="width:300px !important;height:200px!important" src="/uploads/@product.Image" alt="@product.Name" class="img-fluid" />
+                    <br />
+                    <div style="text-align: center !important; margin-bottom:20px!important">
+                        @product.Name (stok: @product.Stock) - @product.Price.ToString("N") TL
+                        <br />
+                    </div>
+                </label>
+            </div>
+        }
+    </div>
+    <button class="btn btn-success">Sepete Ekle</button>
+</form>
+
+@* <body class="bg-gray-100">
+        @if (ViewBag.AddYorum)
+        {
+            <div class="bg-white p-4 rounded-lg shadow-md mt-4">
+                <h3 class="font-bold text-lg">Yorum Yap</h3>
+                <form class="mt-2" action="/AddYorum" method="post" autocomplete="off">
+                    <div class="flex items-start">
+                        <div class="ml-4 w-full">
+                            <textarea name="Summary" class="w-full p-2 border border-gray-300 rounded-lg" rows="4" placeholder="Yorumunuzu buraya yazın..."></textarea>
+                            <input type="hidden" name="TweetId" value="@Model.Tweet.Id" />
+                            <button type="submit" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Gönder</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        }
+
+        @foreach (var item in Model.Comments)
+        {
+            <div class="bg-white p-4 rounded-lg shadow-md mt-4">
+                <div class="flex items-start">
+                    <a href="/profil/@item.Nickname">
+                        <img class="w-12 h-12 rounded-full" src="/uploads/images.jpg" alt="Yorum Yapan Profil">
+                    </a>
+                    <div class="ml-4 w-full">
+                        <div class="flex items-center">
+                            <h3 class="font-bold">@item.Username</h3>
+                            <span class="text-gray-500 text-sm ml-2">@@@item.Nickname</span>
+                            <span class="text-gray-500 text-sm ml-2">•</span>
+                            <span class="text-gray-500 text-sm ml-2">@item.CreatedTime.ToString("g", CultureInfo.GetCultureInfo("tr"))</span>
+                        </div>
+                        <p class="mt-2 text-gray-700">@item.Summary</p>
+                    </div>
+                    @if (ViewBag.yetki == "full")
+                    {
+                        <a href="/YorumSil/@item.Id?tweetId=@Model.Tweet.Id" onclick="return confirm('Emin misin?')" class="btn btn-danger">Sil</a>
+                    }
+                    else if (ViewBag.id == item.UserId)
+                    {
+                        <a href="/YorumSil/@item.Id?tweetId=@Model.Tweet.Id" onclick="return confirm('Emin misin?')" class="btn btn-danger">Sil</a>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</body> *@
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        filterProducts('Ana Yemekler');
+    });
+
+    function filterProducts(category) {
+        const items = document.querySelectorAll('.product-item');
+        items.forEach(item => {
+            const itemCategory = item.getAttribute('data-category');
+            if (itemCategory === category || category === 'All') {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    }
+
+    function searchProducts(event) {
+        event.preventDefault();
+        const searchInput = document.getElementById('searchInput').value.toLowerCase();
+        const items = document.querySelectorAll('.product-item');
+        items.forEach(item => {
+            const productName = item.querySelector('div').innerText.toLowerCase();
+            if (productName.includes(searchInput)) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    }
+</script>
+
+<style>
+    .navbar .btn {
+        margin-right: 10px;
+    }
+
+    .product-item {
+        margin-bottom: 20px;
+    }
+</style>

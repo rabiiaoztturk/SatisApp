@@ -1,0 +1,21 @@
+﻿<form method="post" asp-action="SatinAl" asp-controller="Home">
+
+    <div class="form-floating mb-3">
+        <input required type="text" class="form-control">
+        <label for="floatingInput">Kart Sahibi</label>
+    </div>
+    <div class="form-floating">
+        <input required type="number" class="form-control">
+        <label for="floatingPassword">Kart Numarası</label>
+    </div>
+    <br />
+
+    <label for="username">Son Kullanma Tarihi</label><br>
+    <input required type="date" name="Son Kullanma Tarihi"><br>
+    <br />
+    <label for="pwd">CVC</label><br>
+    <input required re type="text" name="CVC">
+    <br />
+    <hr />
+    <button class="btn-outline-success">Siparişi Oluştur</button>
+</form>

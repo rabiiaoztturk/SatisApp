@@ -1,0 +1,30 @@
+﻿<h2 class="mb-4">Ürün Düzenle</h2>
+
+<form class="row g-3" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="exampleFormControlFile1">Görsel Ekle:</label>
+        <input type="file" name="ImgFile" class="form-control-file">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Ürün adı</label>
+        <input required type="text" value="@Model.Name" class="form-control" name="Name" autocomplete="off">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Kategori</label>
+        <select required class="form-control" name="CategoryId">
+            <option value=1>Ana Yemekler</option>
+            <option value=2>Alkollü İçecekler</option>
+            <option value=3>Alkolsüz İçecekler</option>
+            <option value=4>Tatlılar</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Stok</label>
+        <input required type="text" value="@Model.Stock" class="form-control" name="Stock" autocomplete="off">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Fiyat</label>
+        <input required type="text" value="@Model.Price" class="form-control" name="Price" autocomplete="off">
+    </div>
+    <button class="btn btn-success">Kaydet</button>
+</form>
